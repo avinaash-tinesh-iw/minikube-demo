@@ -1,0 +1,61 @@
+{
+  "name": "study-data-pod",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/study-data-pod/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/study-data-pod",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/study-data-pod/src/main.ts",
+        "tsConfig": "apps/study-data-pod/tsconfig.app.json",
+        "assets": ["apps/study-data-pod/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "generateLockfile": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "study-data-pod:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "study-data-pod:build:development"
+        },
+        "production": {
+          "buildTarget": "study-data-pod:build:production"
+        }
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/study-data-pod/Dockerfile . -t study-data-pod"
+    }
+  }
+}
