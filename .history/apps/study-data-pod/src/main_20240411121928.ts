@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
   res.status(200);
 });
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 3334;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });

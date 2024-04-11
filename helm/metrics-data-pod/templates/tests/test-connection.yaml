@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "metrics-data-pod.fullname" . }}-test-connection"
+  labels:
+    {{- include "metrics-data-pod.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "metrics-data-pod.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
