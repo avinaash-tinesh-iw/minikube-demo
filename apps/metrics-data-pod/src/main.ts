@@ -14,8 +14,8 @@ app.get("/api", (req, res) => {
   res.send({ message: "Welcome to metrics-data-pod!" });
 });
 
-app.get("/", (req, res) => {
-  res.status(200);
+app.get("/health", (req, res) => {
+  res.status(200).send();
 });
 
 const port = process.env.PORT || 8080;
