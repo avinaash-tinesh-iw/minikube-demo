@@ -42,10 +42,9 @@ securityContext:
   # runAsUser: 1000
 
 service:
-  type: NodePort
-  port: 80
-  targetPort: 3334
-  nodePort: 30089
+  type: ClusterIP
+  port: 81
+  targetPort: 8081
 
 ingress:
   enabled: false
@@ -80,11 +79,11 @@ resources:
 livenessProbe:
   httpGet:
     path: /
-    port: http
+    port: 8081
 readinessProbe:
   httpGet:
     path: /
-    port: http
+    port: 8081
 
 autoscaling:
   enabled: false

@@ -15,7 +15,7 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200);
+  res.status(200).send();
 });
 
 const port = process.env.PORT || 8081;
