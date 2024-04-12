@@ -55,6 +55,37 @@ It will show tasks that you can run with Nx.
 
 - [Learn more about Exploring the Project Graph](https://nx.dev/core-features/explore-graph)
 
+## Steps used to create this repository
+
+Initialise nx workspace:
+
+```sh
+npx create-nx-workspace --pm yarn
+```
+
+Options will be presented in the terminal.
+![nx-init-options](docs/images/nx-init-options.png)
+
+In the new nx workspace, we want to create another app:
+
+```sh
+yarn add -D @nrwl/express
+
+nx generate @nrwl/express:application study-data-pod
+```
+
+Select "Derived" option to create the second app in the `/apps` folder.
+
+Create a Dockerfile for each service
+
+Now we want to build both apps using nx, running the following command should populate a `dist/apps` folder with the two apps:
+
+```sh
+nx build metric-data-pod && nx build study-data-pod
+```
+
+If one of the apps fails to build, check its project.json file. If it is missing a `target.builds` property, copy this from the project.json file of the app that built successfully and modify the app name as required. Then retry the `nx build` command.
+
 ## Connect with us!
 
 - [Join the community](https://nx.dev/community)
