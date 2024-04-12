@@ -55,6 +55,50 @@ It will show tasks that you can run with Nx.
 
 - [Learn more about Exploring the Project Graph](https://nx.dev/core-features/explore-graph)
 
+## Using Helm and Minikube locally
+
+We want to build and push the Docker images to the Minikube docker repo.
+
+If minikube is not already running:
+
+```sh
+minikube start
+```
+
+Connecting to minikube docker:
+
+```sh
+eval $(minikube -p minikube docker-env)
+```
+
+Now we build the docker image as usual:
+
+```sh
+docker build -f ./apps/metrics-data-pod/Dockerfile . -t metrics-data-pod:<version>
+```
+
+We should expect to see a list like below when running `minikube image ls` to check what images Minikube has access to locally.
+
+![minikube-image-list](docs/images/minikube-image-list.png)
+
+Now we can attempt to deploy this image to a specified namespace (or omit the `--namespace` flag to deploy to Minikube's default namespace):
+
+```sh
+helm install <release_name> ./helm/<pod_to_deploy> --create-namespace --namespace <namespace>
+```
+
+Releasing a new version of the chart or image can be done using the following command:
+
+```sh
+helm upgrade <release_name> ./helm/<pod_to_deploy> --namespace <namespace>
+```
+
+Use the following kubectl command to port forward to interact with the service from outside the K8s cluster:
+
+```sh
+kubectl --namespace <namespace> port-forward <pod_name> <container_port>:<port>
+```
+
 ## Connect with us!
 
 - [Join the community](https://nx.dev/community)
