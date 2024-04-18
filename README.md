@@ -96,10 +96,16 @@ If minikube is not already running:
 minikube start
 ```
 
-Connecting to minikube docker:
+Connecting to minikube docker, needs to be run in any new terminal you build from:
 
 ```sh
 eval $(minikube -p minikube docker-env)
+```
+
+Rebuild the apps with nx if changes have been made:
+
+```sh
+nx run-many --target build --all --parallel
 ```
 
 Now we build the docker image as usual:
@@ -127,7 +133,13 @@ helm upgrade <release_name> ./helm/<pod_to_deploy> --namespace <namespace>
 Use the following kubectl command to port forward to interact with the service from outside the K8s cluster:
 
 ```sh
-kubectl --namespace <namespace> port-forward <pod_name> <container_port>:<port>
+kubectl --namespace <namespace> port-forward <pod_name> <port>:<container_port>
+```
+
+To make a POST request to your pod using curl
+
+```sh
+curl -X POST -H "Content-Type: application/json" -d '{"example": "your json here"}' http://<pod>.<namespace>:<port>
 ```
 
 ## Connect with us!
